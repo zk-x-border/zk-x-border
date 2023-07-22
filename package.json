@@ -31,8 +31,8 @@
     "prepare": "husky install",
     "compileContracts": "npx hardhat compile",
     "testContracts": "npx hardhat test --network hardhat",
-    "demo-1": "yarn hardhat run contracts/scripts/1_claim_order.js",
-    "demo-2": "yarn hardhat run contracts/scripts/2_complete_order.js",
+    "demo-1": "yarn hardhat run contracts/scripts/1_claim_order.js --network matic",
+    "demo-2": "yarn hardhat run contracts/scripts/2_complete_order.js --network matic",
     "deploy:polygon": "npx hardhat run scripts/deploy.js --network polygon",
     "deploy:localhost": "npx hardhat run scripts/deploy.js --network localhost"
   },

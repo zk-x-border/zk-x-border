@@ -6,7 +6,6 @@ require("@nomiclabs/hardhat-ethers");
 require("@nomiclabs/hardhat-etherscan");
 
 module.exports = {
-    defaultNetwork: "matic",
     networks: {
         matic: {
             url: `https://polygon-mainnet.infura.io/v3/${INFURA_PROJECT_ID}`,
