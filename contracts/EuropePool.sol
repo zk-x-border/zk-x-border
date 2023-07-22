@@ -244,7 +244,7 @@ contract EuropePool is IPool, RevolutSendVerifier {
     )
   {
     // Iterate over all open orders and find order whose amount is greater than the amount of USDC we want to swap
-    for (uint256 i = 0; i < orderId; i++) {
+    for (uint256 i = 0; i < numOrders; i++) {
       if (orders[i].amount >= euroAmount) {
         orderId = orders[i].id;
         offChainPaymentAddress = orders[i].offChainPaymentAddress;

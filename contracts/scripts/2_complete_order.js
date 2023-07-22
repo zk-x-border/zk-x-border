@@ -11,7 +11,7 @@ const { BigNumber } = hre.ethers;
 const USDC = "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174";
 const USDCABI = require("../abis/USDC.json");
 
-const USDCPool = "0x6264A10666cb9903eeA34999fbF45104B7497eE5"; // To fill in
+const USDCPool = "0x18C54cFB3bC9480E9Dab7fEB5d319E6460D40627"; // To fill in
 const USDCPoolABI = require("../abis/USDCPool.json");
 
 const ORDER_ID = 1;
