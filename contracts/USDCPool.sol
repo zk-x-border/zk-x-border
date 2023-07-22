@@ -145,7 +145,10 @@ contract USDCPool is IPool {
 
   // Called by the taker
   // Claims an order in the pool
-  function claimOrder(uint256 id, bytes32 emailHash) external override {
+  function claimOrder(
+    uint256 id,
+    bytes32 emailHash // will be set to 0 for the demo
+  ) external override {
     require(!orders[id].claimed, "Order has already been claimed.");
     claimedOrders[id] = emailHash;
     orders[id].claimed = true;
