@@ -4,6 +4,7 @@ pragma abicoder v2;
 import "@uniswap/v3-periphery/contracts/interfaces/ISwapRouter.sol";
 import "@uniswap/v3-periphery/contracts/libraries/TransferHelper.sol";
 import "@uniswap/v3-periphery/contracts/interfaces/IQuoterV2.sol";
+import { IPool } from "./interfaces/IPool.sol";
 
 interface IVenmoSendVerifier {
   function verify(
@@ -17,6 +18,8 @@ interface IVenmoSendVerifier {
 contract USDCPool is IPool {
   mapping(uint256 => Order) public orders;
   mapping(uint256 => bytes32) public claimedOrders;
+
+  uint16 private constant bytesInPackedBytes = 7; // 7 bytes in a packed item returned from circom
 
   IPool public euroPool;
   IVenmoSendVerifier public verifier;
