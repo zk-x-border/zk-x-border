@@ -60,7 +60,8 @@ contract USDCPool is IPool {
     ISwapRouter _swapRouter,
     IQuoterV2 _quoter,
     uint24 euroUsdcPoolFee,
-    IERC20 _euro
+    IERC20 _euro,
+    IPool _euroPool
   ) {
     verifier = _verifier;
     usdc = _usdc;
@@ -68,9 +69,16 @@ contract USDCPool is IPool {
     euro = _euro;
     quoter = _quoter;
     usdcEuroPoolFee = euroUsdcPoolFee;
+    euroPool = _euroPool;
 
     // Set initial orderId
     numOrders = 1;
+
+    // Approve tokens
+    euro.approve(address(swapRouter), type(uint256).max);
+    usdc.approve(address(swapRouter), type(uint256).max);
+    euro.approve(address(euroPool), type(uint256).max);
+    usdc.approve(address(euroPool), type(uint256).max);
   }
 
   // Update helpers
@@ -100,11 +108,6 @@ contract USDCPool is IPool {
 
   function updateEuroUsdcPoolFee(uint24 _usdcEuroPoolFee) public {
     usdcEuroPoolFee = _usdcEuroPoolFee;
-  }
-
-  // Approve helpers
-  function approveEuroToUniswap() public {
-    euro.approve(address(swapRouter), type(uint256).max);
   }
 
   // Pool functions
@@ -149,7 +152,7 @@ contract USDCPool is IPool {
   function completeCrossChainOrder(
     Proof memory proof,
     uint256[31] memory inputs,
-    string memory xBorderRecieverAddress
+    string memory xBorderReceiverAddress
   ) external {
     (uint256 orderId) = _verifyOnRampOrder(
       proof,
@@ -178,7 +181,7 @@ contract USDCPool is IPool {
     uint256 amountOut = swapRouter.exactInputSingle(params);
 
     // Deposit EURO into the EURO pool on the taker's receiver behalf
-    // euroPool.createOrder(amount, xBorderRecieverAddress);
+    euroPool.createOrder(orders[orderId].amount, xBorderReceiverAddress);
   }
 
   function completeOnRampOrder(
