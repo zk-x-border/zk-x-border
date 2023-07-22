@@ -22,11 +22,13 @@ async function main() {
 
     const usdcPoolContract = await ethers.getContractAt(USDCABI, USDCPool);
 
-    const receipt = await usdcPoolContract.claimOrder(
+    await usdcPoolContract.claimOrder(
         ORDER_ID,
         EMAIL_HASH,
         { gasLimit: 140000 }
     );
+
+    console.log("Submitted USDCPool claim Order!");
 }
 
 // We recommend this pattern to be able to use async/await everywhere

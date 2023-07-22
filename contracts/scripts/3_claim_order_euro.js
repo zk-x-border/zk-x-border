@@ -18,7 +18,7 @@ const ORDER_ID = 1;
 const EMAIL_HASH = "0";
 
 async function main() {
-    console.log("USDPool.claim order ID 1");
+    console.log(`USDPool.claim order ID ${ORDER_ID}`);
 
     const euroPoolContract = await ethers.getContractAt(EuroPoolABI, EuroPool);
 
@@ -27,6 +27,10 @@ async function main() {
         EMAIL_HASH,
         { gasLimit: 140000 }
     );
+
+    const { transactionHash } = receipt;
+
+    console.log(`Submitted USDCPool claim Order: ${transactionHash}`);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
