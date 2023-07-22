@@ -11,7 +11,7 @@ interface IPool {
     uint256[3] takerEmailHash;
   }
 
-  struct Proof {
+  struct ZKProof {
     uint[2] a;
     uint[2][2] b;
     uint[2] c;

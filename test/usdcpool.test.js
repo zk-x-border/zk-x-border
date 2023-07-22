@@ -27,9 +27,12 @@ describe("USDC Pool", function () {
         console.log('Deploying fake USDC...')
 
         const FakeUSDC = await hre.ethers.getContractFactory("FakeUSDC");
-        fakeUSDC = await FakeUSDC.deploy("Fake USDC", "fUSDC", 10000000000000);
 
+        fakeUSDC = await FakeUSDC.deploy("Fake USDC", "fUSDC", 10000000000000);
         await fakeUSDC.connect(deployer).transfer(offRamper.address, 1000000000); // $1000
+
+        fakeEuro = await FakeUSDC.deploy("Fake USDC", "fUSDC", 10000000000000);
+        await fakeEuro.connect(deployer).transfer(offRamper.address, 1000000000); // $1000
 
         console.log(fakeUSDC.address);
         console.log('Deploying USDC Pool...')
@@ -41,19 +44,17 @@ describe("USDC Pool", function () {
         let quoter = "0xE0B52e49357Fd4DAf2c15e02058DCE6BC0057db4";
         let usdcEuroPoolFee = "1000";
 
-        const VenmoSendVerifier = await hre.ethers.getContractFactory("VenmoSendVerifier");
-        verifier = await VenmoSendVerifier.deploy();
-        console.log(verifier.address);
+        // const VenmoSendVerifier = await hre.ethers.getContractFactory("VenmoSendVerifier");
+        // verifier = await VenmoSendVerifier.deploy();
+        // console.log(verifier.address);
 
         const Ramp = await hre.ethers.getContractFactory("USDCPool");
         ramp = await Ramp.deploy(
-            // euroPool,
-            verifier.address,
             fakeUSDC.address,
             swapRouter,
             quoter,
             usdcEuroPoolFee,
-            euro,
+            fakeEuro.address,
         );
         console.log(ramp.address);
     });
