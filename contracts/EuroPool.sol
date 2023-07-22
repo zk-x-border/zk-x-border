@@ -40,34 +40,32 @@ interface IVerifier {
   ) external view returns (bool);
 }
 
-contract USDCPool is IPool {
+contract EUROPool is IPool {
   mapping(uint256 => Order) public orders;
   mapping(uint256 => bytes32) public claimedOrders;
 
-  IPool public euroPool;
+  IPool public usdcPool;
   IVerifier public verifier;
-  // Todo: Switch to SafeERC20.
-  IERC20 public usdc;
+  IERC20 public ageuro;
 
   ISwapRouter public swapRouter;
   IQuoterV2 public quoter;
-  IERC20 public euro;
+  IERC20 public usdc;
   uint24 public usdcEuroPoolFee;
 
   uint256 public numOrders;
 
   uint256 constant rsaModulusChunksLen = 17;
-  uint256[rsaModulusChunksLen] public venmoMailServerKeys = [
-    683441457792668103047675496834917209,
-    1011953822609495209329257792734700899,
-    1263501452160533074361275552572837806,
-    2083482795601873989011209904125056704,
-    642486996853901942772546774764252018,
-    1463330014555221455251438998802111943,
-    2411895850618892594706497264082911185,
-    520305634984671803945830034917965905,
-    47421696716332554,
-    0,
+  uint256[rsaModulusChunksLen] public revolutServerKeys = [
+    1357877033487705755044473051962315017,
+    1992913992454963774321360338650810838,
+    1332679464913641539987869420620959603,
+    2348132427872155825755866901316180901,
+    1883906444029850560136606276757266463,
+    2450997574449119024683227690782146111,
+    2287069363878927698261632102663638321,
+    2446813570435318449337400488662901236,
+    48497691420903457,
     0,
     0,
     0,
@@ -78,21 +76,21 @@ contract USDCPool is IPool {
   ];
 
   constructor(
-    IPool _euroPool,
+    IPool _usdcPool,
     IVerifier _verifier,
-    IERC20 _usdc,
+    IERC20 _ageuro,
     ISwapRouter _swapRouter,
     IQuoterV2 _quoter,
     uint24 euroUsdcPoolFee,
-    IERC20 _euro
+    IERC20 _usdc
   ) {
-    euroPool = _euroPool;
+    usdcPool = _usdcPool;
     verifier = _verifier;
-    usdc = _usdc;
+    ageuro = _ageuro;
     swapRouter = _swapRouter;
-    euro = _euro;
     quoter = _quoter;
     usdcEuroPoolFee = euroUsdcPoolFee;
+    usdc = _usdc;
 
     // Set initial orderId
     numOrders = 1;
@@ -103,8 +101,8 @@ contract USDCPool is IPool {
     verifier = _verifier;
   }
 
-  function updateEuroPool(IPool _euroPool) public {
-    euroPool = _euroPool;
+  function updateUsdcPool(IPool _usdcPool) public {
+    usdcPool = _usdcPool;
   }
 
   function updateUSDC(IERC20 _usdc) public {
@@ -115,8 +113,8 @@ contract USDCPool is IPool {
     swapRouter = _swapRouter;
   }
 
-  function updateEuro(IERC20 _euro) public {
-    euro = _euro;
+  function updateEuro(IERC20 _ageuro) public {
+    ageuro = _ageuro;
   }
 
   function updateQuoter(IQuoterV2 _quoter) public {
@@ -128,17 +126,17 @@ contract USDCPool is IPool {
   }
 
   // Approve helpers
-  function approveEuroToUniswap() public {
-    euro.approve(address(swapRouter), type(uint256).max);
+  function approveUsdcToUniswap() public {
+    usdc.approve(address(swapRouter), type(uint256).max);
   }
 
   // Pool functions
 
   // Called by the LP
-  // Locks USDC in the pool
+  // Locks agEURO in the pool
   // Creates an order in the pool
 
-  // Note: Before create order make sure to approve the contract to spend the amount of USDC you want to lock.
+  // Note: Before create order make sure to approve the contract to spend the amount of agEURO you want to lock.
 
   function createOrder(
     uint256 amount,
@@ -153,7 +151,7 @@ contract USDCPool is IPool {
       takerEmailHash: [uint256(0), uint256(0), uint256(0)]
     });
 
-    usdc.transferFrom(msg.sender, address(this), amount);
+    ageuro.transferFrom(msg.sender, address(this), amount);
 
     numOrders += 1;
   }
@@ -205,8 +203,8 @@ contract USDCPool is IPool {
     // Swaps USDC for EURO on Uniswap V3
     ISwapRouter.ExactInputSingleParams memory params = ISwapRouter
       .ExactInputSingleParams({
-        tokenIn: address(usdc),
-        tokenOut: address(euro),
+        tokenIn: address(ageuro),
+        tokenOut: address(usdc),
         fee: usdcEuroPoolFee,
         recipient: msg.sender,
         deadline: block.timestamp,
@@ -227,7 +225,7 @@ contract USDCPool is IPool {
   }
 
   function matchOrder(
-    uint256 usdcAmount
+    uint256 euroAmount
   )
     external
     returns (
@@ -238,7 +236,7 @@ contract USDCPool is IPool {
   {
     // Iterate over all open orders and find order whose amount is greater than the amount of USDC we want to swap
     for (uint256 i = 0; i < orderId; i++) {
-      if (orders[i].amount >= usdcAmount) {
+      if (orders[i].amount >= euroAmount) {
         orderId = orders[i].id;
         offChainPaymentAddress = orders[i].offChainPaymentAddress;
         break;
@@ -248,9 +246,9 @@ contract USDCPool is IPool {
     // Simulates the swap on Uniswap V3
     IQuoterV2.QuoteExactInputSingleParams memory params = IQuoterV2
       .QuoteExactInputSingleParams({
-        tokenIn: address(usdc),
-        tokenOut: address(euro),
-        amountIn: usdcAmount,
+        tokenIn: address(ageuro),
+        tokenOut: address(usdc),
+        amountIn: euroAmount,
         fee: usdcEuroPoolFee,
         sqrtPriceLimitX96: 0
       });
