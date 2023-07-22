@@ -15,7 +15,7 @@ interface IRevolutSendVerifier {
   ) external view returns (bool);
 }
 
-contract EUROPool is IPool {
+contract EuropePool is IPool {
   mapping(uint256 => Order) public orders;
   mapping(uint256 => bytes32) public claimedOrders;
 
