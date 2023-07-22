@@ -54,7 +54,6 @@ contract EuropePool is IPool {
   ];
 
   constructor(
-    IPool _usdcPool,
     IRevolutSendVerifier _verifier,
     IERC20 _ageuro,
     ISwapRouter _swapRouter,
@@ -62,7 +61,6 @@ contract EuropePool is IPool {
     uint24 euroUsdcPoolFee,
     IERC20 _usdc
   ) {
-    usdcPool = _usdcPool;
     verifier = _verifier;
     ageuro = _ageuro;
     swapRouter = _swapRouter;
