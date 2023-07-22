@@ -1,3 +1,6 @@
+pragma solidity =0.7.6;
+pragma abicoder v2;
+
 interface IPool {
   struct Order {
     uint256 id;
