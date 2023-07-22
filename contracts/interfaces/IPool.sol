@@ -22,7 +22,7 @@ interface IPool {
     string memory offChainPaymentAddress
   ) external;
 
-  function claimOrder(uint256 id, bytes32 emailHash) external;
+  function claimOrder(uint256 id, bytes memory emailHash) external;
 
   function getOrder(uint256 id) external view returns (Order memory);
 }
