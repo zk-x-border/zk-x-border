@@ -11,7 +11,7 @@ const { BigNumber } = hre.ethers;
 
 const ZERO = BigNumber.from(0);
 
-describe.skip("USDC Pool", function () {
+describe("USDC Pool", function () {
     let ramp;
     let fakeUSDC;
     let maxAmount;
