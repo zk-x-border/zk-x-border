@@ -163,7 +163,7 @@ contract EuropePool is IPool, RevolutSendVerifier {
         tokenIn: address(ageuro),
         tokenOut: address(usdc),
         fee: usdcEuroPoolFee,
-        recipient: msg.sender,
+        recipient: address(this),
         deadline: block.timestamp,
         amountIn: orders[orderId].amount,
         amountOutMinimum: 0,

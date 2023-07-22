@@ -163,7 +163,7 @@ contract USDCPool is IPool, VenmoSendVerifier {
         tokenIn: address(usdc),
         tokenOut: address(euro),
         fee: usdcEuroPoolFee,
-        recipient: msg.sender,
+        recipient: address(this),
         deadline: block.timestamp,
         amountIn: orders[orderId].amount,
         amountOutMinimum: 0,

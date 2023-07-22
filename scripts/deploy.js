@@ -20,7 +20,7 @@ async function main() {
     const agEuroAddress = "0xE0B52e49357Fd4DAf2c15e02058DCE6BC0057db4";
     const swapRouterAddress = "0xE592427A0AEce92De3Edee1F18E0157C05861564";
     const quoterV2Address = "0x61fFE014bA17989E743c5F6cB21bF9697530B21e";
-    const usdcEuroPoolFee = "1000"; // 0.01%
+    const usdcEuroPoolFee = "100"; // 0.01%
     const usdcAddress = "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174";
 
     console.log("Deploying USDC Pool contract with the account:", deployer.address);
