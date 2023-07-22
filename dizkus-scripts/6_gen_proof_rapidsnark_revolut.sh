@@ -23,8 +23,10 @@ source circuit.env
 echo "****GENERATING PROOF FOR SAMPLE INPUT****"
 start=$(date +%s)
 set -x
-../../../../rapidsnark/build/prover "$BUILD_DIR"/"$CIRCUIT_NAME".zkey "$BUILD_DIR"/witness.wtns "$BUILD_DIR"/rapidsnark_proof.json "$BUILD_DIR"/rapidsnark_public.json
+../../../../rapidsnark/build/prover ../build/revolut_send/revolut_send.zkey ../build/revolut_send/revolut_send_witness.wtns ../build/revolut_send/rapidsnark_proof_revolut.json ../build/revolut_send/rapidsnark_public_revolut.json
 { set +x; } 2>/dev/null
 end=$(date +%s)
 echo "DONE ($((end - start))s)"
 echo
+
+$SNARKJS_PATH zkey export soliditycalldata ../build/revolut_send/rapidsnark_public.json ../build/revolut_send/rapidsnark_proof.json
