@@ -13,6 +13,7 @@ const ZERO = BigNumber.from(0);
 
 describe("EURO Pool", function () {
     let ramp;
+    let verifier;
     let fakeEuro;
     let maxAmount;
 
@@ -37,16 +38,19 @@ describe("EURO Pool", function () {
 
         // init a bunch of fake addresses
         let usdPool = "0xE0B52e49357Fd4DAf2c15e02058DCE6BC0057db4";
-        let verifier = "0xE0B52e49357Fd4DAf2c15e02058DCE6BC0057db4";
         let swapRouter = "0xE0B52e49357Fd4DAf2c15e02058DCE6BC0057db4";
         let usdc = "0xE0B52e49357Fd4DAf2c15e02058DCE6BC0057db4";
         let quoter = "0xE0B52e49357Fd4DAf2c15e02058DCE6BC0057db4";
         let usdcEuroPoolFee = "1000";
 
+        const RevolutSendVerifier = await hre.ethers.getContractFactory("RevolutSendVerifier");
+        verifier = await RevolutSendVerifier.deploy();
+        console.log(verifier.address);
+
         const Ramp = await hre.ethers.getContractFactory("EuropePool");
         ramp = await Ramp.deploy(
             usdPool,
-            verifier,
+            verifier.address,
             fakeEuro.address,
             swapRouter,
             quoter,
