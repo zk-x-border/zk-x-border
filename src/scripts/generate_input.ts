@@ -137,7 +137,7 @@ export async function getCircuitInputs(
   // Update preselector string based on circuit type
   if (circuit === CircuitType.EMAIL_VENMO_SEND) {
     STRING_PRESELECTOR_FOR_EMAIL_TYPE = "                    href=3D\"https://venmo.com/code?user_id=3D";
-    MAX_BODY_PADDED_BYTES_FOR_EMAIL_TYPE = 6016;  // 5708 length + 300 chars long custom message
+    MAX_BODY_PADDED_BYTES_FOR_EMAIL_TYPE = 5952;
   } else if (circuit === CircuitType.EMAIL_REVOLUT_SEND) {
     STRING_PRESELECTOR_FOR_EMAIL_TYPE = "You sent =C2=A3";
     MAX_BODY_PADDED_BYTES_FOR_EMAIL_TYPE = 11712;

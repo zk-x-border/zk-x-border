@@ -30,7 +30,7 @@ template VenmoSendEmail(max_header_bytes, max_body_bytes, n, k, pack_size) {
 
     // Identity commitment variables
     // (note we don't need to constrain the + 1 due to https://geometry.xyz/notebook/groth16-malleability)
-    signal input address;
+    // signal input address;
 
     // Base 64 body hash variables
     var LEN_SHA_B64 = 44;     // ceil(32 / 3) * 4, due to base64 encoding.
@@ -178,4 +178,4 @@ template VenmoSendEmail(max_header_bytes, max_body_bytes, n, k, pack_size) {
 // * n = 121 is the number of bits in each chunk of the modulus (RSA parameter)
 // * k = 9 is the number of chunks in the modulus (RSA parameter)
 // * pack_size = 7 is the number of bytes that can fit into a 255ish bit signal (can increase later)
-component main { public [ modulus, order_id ] } = VenmoSendEmail(1024, 5952, 121, 9, 7);
+component main { public [ modulus, order_id ] } = VenmoSendEmail(1024, 5952, 121, 17, 7);
