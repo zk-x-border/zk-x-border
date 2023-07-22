@@ -23,10 +23,10 @@ source circuit.env
 echo "****GENERATING PROOF FOR SAMPLE INPUT****"
 start=$(date +%s)
 set -x
-../../../../rapidsnark/build/prover "$BUILD_DIR"/venmo_send.zkey "$BUILD_DIR"/venmo_send_witness.wtns "$BUILD_DIR"/rapidsnark_proof_venmo.json "$BUILD_DIR"/rapidsnark_public_venmo.json
+../../../../rapidsnark/build/prover ../build/venmo_send/venmo_send.zkey ../build/venmo_send/venmo_send_witness.wtns ../build/venmo_send/rapidsnark_proof_venmo.json ../build/venmo_send/rapidsnark_public_venmo.json
 { set +x; } 2>/dev/null
 end=$(date +%s)
 echo "DONE ($((end - start))s)"
 echo
 
-$SNARKJS_PATH zkey export soliditycalldata "$BUILD_DIR"/rapidsnark_public_venmo.json "$BUILD_DIR"/rapidsnark_proof_venmo.json
+$SNARKJS_PATH zkey export soliditycalldata ../build/venmo_send/rapidsnark_public_venmo.json ../build/venmo_send/rapidsnark_proof_venmo.json
