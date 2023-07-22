@@ -48,8 +48,6 @@ describe("EURO Pool", function () {
 
         const Ramp = await hre.ethers.getContractFactory("EuropePool");
         ramp = await Ramp.deploy(
-            // usdPool,
-            usdPool,
             verifier.address,
             fakeEuro.address,
             swapRouter,
