@@ -11,7 +11,7 @@
 //
 //
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity ^0.8.12;
+pragma solidity =0.7.6;
 library Pairing {
     struct G1Point {
         uint X;
@@ -161,7 +161,7 @@ library Pairing {
         return pairing(p1, p2);
     }
 }
-contract Verifier {
+contract RevolutSendVerifier {
     using Pairing for *;
     struct VerifyingKey {
         Pairing.G1Point alfa1;

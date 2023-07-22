@@ -8,7 +8,7 @@ import { IPool } from "./interfaces/IPool.sol";
 import "hardhat/console.sol";
 
 interface IRevolutSendVerifier {
-  function verify(
+  function verifyProof(
     uint[2] memory a,
     uint[2][2] memory b,
     uint[2] memory c,
@@ -54,7 +54,6 @@ contract EuropePool is IPool {
   ];
 
   constructor(
-    IPool _usdcPool,
     IRevolutSendVerifier _verifier,
     IERC20 _ageuro,
     ISwapRouter _swapRouter,
@@ -62,7 +61,6 @@ contract EuropePool is IPool {
     uint24 euroUsdcPoolFee,
     IERC20 _usdc
   ) {
-    usdcPool = _usdcPool;
     verifier = _verifier;
     ageuro = _ageuro;
     swapRouter = _swapRouter;
@@ -284,10 +282,10 @@ contract EuropePool is IPool {
     )
   {
     // verify proof
-    // require(
-    //   verifier.verify(proof.a, proof.b, proof.c, inputs),
-    //   "Invalid proof"
-    // );
+    require(
+      verifier.verifyProof(proof.a, proof.b, proof.c, inputs),
+      "Invalid proof"
+    );
 
     // Extract out all public inputs
     // Signals [0..4] are the packed amount
