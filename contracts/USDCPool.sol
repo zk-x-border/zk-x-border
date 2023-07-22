@@ -8,7 +8,7 @@ import { IPool } from "./interfaces/IPool.sol";
 import "hardhat/console.sol";
 
 interface IVenmoSendVerifier {
-  function verify(
+  function verifyProof(
     uint[2] memory a,
     uint[2][2] memory b,
     uint[2] memory c,
@@ -55,7 +55,6 @@ contract USDCPool is IPool {
   ];
 
   constructor(
-    IPool _euroPool,
     IVenmoSendVerifier _verifier,
     IERC20 _usdc,
     ISwapRouter _swapRouter,
@@ -63,7 +62,6 @@ contract USDCPool is IPool {
     uint24 euroUsdcPoolFee,
     IERC20 _euro
   ) {
-    euroPool = _euroPool;
     verifier = _verifier;
     usdc = _usdc;
     swapRouter = _swapRouter;
@@ -284,10 +282,10 @@ contract USDCPool is IPool {
     )
   {
     // verify proof
-    // require(
-    //   verifier.verify(proof.a, proof.b, proof.c, inputs),
-    //   "Invalid proof"
-    // );
+    require(
+      verifier.verifyProof(proof.a, proof.b, proof.c, inputs),
+      "Invalid proof"
+    );
 
     // Extract out all public inputs
     // Signals [0..4] are the packed amount

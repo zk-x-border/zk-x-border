@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-const { INFURA_PROJECT_ID, PRIVATE_KEY, ETHERSCAN_GOERLI_API_KEY } = process.env;
+const { INFURA_PROJECT_ID, PRIVATE_KEY, ETHERSCAN_GOERLI_API_KEY, POLYGONSCAN_API_KEY } = process.env;
 
 require("@nomiclabs/hardhat-ethers");
 require("@nomiclabs/hardhat-etherscan");
@@ -31,17 +31,12 @@ module.exports = {
             gas: 120000000,
             blockGasLimit: 120000000
         },
-        // matic: {
-        //     url: `https://matic.infura.io/v3/${INFURA_PROJECT_ID}`,
-        //     timeout: 2000000,
-        //     gas: 120000000,
-        //     blockGasLimit: 120000000
-        // },
     },
     // Etherscan verification doesn't work, was able to do it manually
     etherscan: {
         apiKey: {
             goerli: ETHERSCAN_GOERLI_API_KEY,
+            polygon: POLYGONSCAN_API_KEY
         }
     },
     paths: {
