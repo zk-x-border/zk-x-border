@@ -11,27 +11,22 @@ const { BigNumber } = hre.ethers;
 const USDC = "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174";
 const USDCABI = require("../abi/USDC.json");
 
+const EuroPool = "0x0000000000000000000000000000000000000000"; // To fill in
+const EuroPoolABI = require("../abi/EuroPool.json");
+
+const ORDER_ID = 1;
+const EMAIL_HASH = "0";
 
 async function main() {
-    console.log("Hello world");
+    console.log("USDPool.claim order ID 1");
 
-    // Get accounts
-    const [owner, otherAccount] = await ethers.getSigners();
+    const euroPoolContract = await ethers.getContractAt(EuroPoolABI, EuroPool);
 
-    const blockNumber = await ethers.provider.getBlockNumber();
-    console.log("Current block number: " + blockNumber);
-
-    const usdcContract = await ethers.getContractAt(USDCABI, USDC);
-
-    let amount = BigNumber.from(10000000); // $10
-    const receipt = await usdcContract.approve(
-        "0x9Beb48630317e8FD2bD091dD2CdCa90Ff1d6c8D1", 
-        amount, 
-        { gasLimit: 100000 }
+    const receipt = await euroPoolContract.claimOrder(
+        ORDER_ID,
+        EMAIL_HASH,
+        { gasLimit: 140000 }
     );
-    
-    console.log(receipt);
-    
 }
 
 // We recommend this pattern to be able to use async/await everywhere

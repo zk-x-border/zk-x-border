@@ -80,7 +80,8 @@
     "prepare": "husky install",
     "compileContracts": "npx hardhat compile",
     "testContracts": "npx hardhat test --network hardhat",
-    "demo-1": "yarn hardhat run contracts/scripts/1_hello_world.js"
+    "demo-1": "yarn hardhat run contracts/scripts/1_claim_order.js",
+    "demo-2": "yarn hardhat run contracts/scripts/2_complete_order.js"
   },
   "eslintConfig": {
     "extends": [
