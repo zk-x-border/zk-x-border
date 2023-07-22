@@ -31,6 +31,10 @@ module.exports = {
             gas: 120000000,
             blockGasLimit: 120000000
         },
+        polygon: {
+            url: "https://rpc-mainnet.maticvigil.com",
+            accounts: [`0x${PRIVATE_KEY}`]
+        }
     },
     // Etherscan verification doesn't work, was able to do it manually
     etherscan: {
