@@ -6,7 +6,14 @@ require("@nomiclabs/hardhat-ethers");
 require("@nomiclabs/hardhat-etherscan");
 
 module.exports = {
+    defaultNetwork: "matic",
     networks: {
+        matic: {
+            url: `https://polygon-mainnet.infura.io/v3/${INFURA_PROJECT_ID}`,
+            accounts: [`0x${PRIVATE_KEY}`],
+            gas: 120000000,
+            blockGasLimit: 120000000
+        },
         hardhat: {
             forking: {
                 url: `https://mainnet.infura.io/v3/${INFURA_PROJECT_ID}`,
@@ -24,6 +31,12 @@ module.exports = {
             gas: 120000000,
             blockGasLimit: 120000000
         },
+        // matic: {
+        //     url: `https://matic.infura.io/v3/${INFURA_PROJECT_ID}`,
+        //     timeout: 2000000,
+        //     gas: 120000000,
+        //     blockGasLimit: 120000000
+        // },
     },
     // Etherscan verification doesn't work, was able to do it manually
     etherscan: {

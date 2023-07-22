@@ -79,7 +79,8 @@
     "compile-all": "yarn gen-input && yarn compile email true",
     "prepare": "husky install",
     "compileContracts": "npx hardhat compile",
-    "testContracts": "npx hardhat test --network hardhat"
+    "testContracts": "npx hardhat test --network hardhat",
+    "demo-1": "yarn hardhat run contracts/scripts/1_hello_world.js"
   },
   "eslintConfig": {
     "extends": [
