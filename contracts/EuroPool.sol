@@ -4,34 +4,9 @@ pragma abicoder v2;
 import "@uniswap/v3-periphery/contracts/interfaces/ISwapRouter.sol";
 import "@uniswap/v3-periphery/contracts/libraries/TransferHelper.sol";
 import "@uniswap/v3-periphery/contracts/interfaces/IQuoterV2.sol";
+import "./interfaces/IPool.sol";
 
-interface IPool {
-  struct Order {
-    uint256 id;
-    uint256 amount;
-    string offChainPaymentAddress;
-    bool claimed;
-    uint56 completedAt;
-    uint256[3] takerEmailHash;
-  }
-
-  struct Proof {
-    uint[2] a;
-    uint[2][2] b;
-    uint[2] c;
-  }
-
-  function createOrder(
-    uint256 amount,
-    string memory offChainPaymentAddress
-  ) external;
-
-  function claimOrder(uint256 id, bytes32 emailHash) external;
-
-  function getOrder(uint256 id) external view returns (Order memory);
-}
-
-interface IVerifier {
+interface IRevolutSendVerifier {
   function verify(
     uint[2] memory a,
     uint[2][2] memory b,
@@ -45,7 +20,7 @@ contract EUROPool is IPool {
   mapping(uint256 => bytes32) public claimedOrders;
 
   IPool public usdcPool;
-  IVerifier public verifier;
+  IRevolutSendVerifier public verifier;
   IERC20 public ageuro;
 
   ISwapRouter public swapRouter;
@@ -77,7 +52,7 @@ contract EUROPool is IPool {
 
   constructor(
     IPool _usdcPool,
-    IVerifier _verifier,
+    IRevolutSendVerifier _verifier,
     IERC20 _ageuro,
     ISwapRouter _swapRouter,
     IQuoterV2 _quoter,
@@ -97,7 +72,7 @@ contract EUROPool is IPool {
   }
 
   // Update helpers
-  function updateVerifier(IVerifier _verifier) public {
+  function updateVerifier(IRevolutSendVerifier _verifier) public {
     verifier = _verifier;
   }
 

@@ -5,33 +5,7 @@ import "@uniswap/v3-periphery/contracts/interfaces/ISwapRouter.sol";
 import "@uniswap/v3-periphery/contracts/libraries/TransferHelper.sol";
 import "@uniswap/v3-periphery/contracts/interfaces/IQuoterV2.sol";
 
-interface IPool {
-  struct Order {
-    uint256 id;
-    uint256 amount;
-    string offChainPaymentAddress;
-    bool claimed;
-    uint56 completedAt;
-    uint256[3] takerEmailHash;
-  }
-
-  struct Proof {
-    uint[2] a;
-    uint[2][2] b;
-    uint[2] c;
-  }
-
-  function createOrder(
-    uint256 amount,
-    string memory offChainPaymentAddress
-  ) external;
-
-  function claimOrder(uint256 id, bytes32 emailHash) external;
-
-  function getOrder(uint256 id) external view returns (Order memory);
-}
-
-interface IVerifier {
+interface IVenmoSendVerifier {
   function verify(
     uint[2] memory a,
     uint[2][2] memory b,
@@ -45,7 +19,7 @@ contract USDCPool is IPool {
   mapping(uint256 => bytes32) public claimedOrders;
 
   IPool public euroPool;
-  IVerifier public verifier;
+  IVenmoSendVerifier public verifier;
   // Todo: Switch to SafeERC20.
   IERC20 public usdc;
 
@@ -79,7 +53,7 @@ contract USDCPool is IPool {
 
   constructor(
     IPool _euroPool,
-    IVerifier _verifier,
+    IVenmoSendVerifier _verifier,
     IERC20 _usdc,
     ISwapRouter _swapRouter,
     IQuoterV2 _quoter,
@@ -99,7 +73,7 @@ contract USDCPool is IPool {
   }
 
   // Update helpers
-  function updateVerifier(IVerifier _verifier) public {
+  function updateVerifier(IVenmoSendVerifier _verifier) public {
     verifier = _verifier;
   }
 
