@@ -55,7 +55,6 @@ contract USDCPool is IPool {
   ];
 
   constructor(
-    IPool _euroPool,
     IVenmoSendVerifier _verifier,
     IERC20 _usdc,
     ISwapRouter _swapRouter,
@@ -63,7 +62,6 @@ contract USDCPool is IPool {
     uint24 euroUsdcPoolFee,
     IERC20 _euro
   ) {
-    euroPool = _euroPool;
     verifier = _verifier;
     usdc = _usdc;
     swapRouter = _swapRouter;

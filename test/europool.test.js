@@ -36,7 +36,7 @@ describe("EURO Pool", function () {
 
 
         // init a bunch of fake addresses
-        let usdPool = "0xE0B52e49357Fd4DAf2c15e02058DCE6BC0057db4";
+        // let usdPool = "0xE0B52e49357Fd4DAf2c15e02058DCE6BC0057db4";
         let verifier = "0xE0B52e49357Fd4DAf2c15e02058DCE6BC0057db4";
         let swapRouter = "0xE0B52e49357Fd4DAf2c15e02058DCE6BC0057db4";
         let usdc = "0xE0B52e49357Fd4DAf2c15e02058DCE6BC0057db4";
@@ -45,7 +45,7 @@ describe("EURO Pool", function () {
 
         const Ramp = await hre.ethers.getContractFactory("EuropePool");
         ramp = await Ramp.deploy(
-            usdPool,
+            // usdPool,
             verifier,
             fakeEuro.address,
             swapRouter,
