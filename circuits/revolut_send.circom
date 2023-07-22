@@ -133,7 +133,7 @@ template RevolutSendEmail(max_header_bytes, max_body_bytes, n, k, pack_size) {
     }
 
     // REVOLUT SEND OFFRAMPER ACCOUNT ID REGEX: [x]
-    var max_revolut_send_len = 10;
+    var max_revolut_send_len = 30;
     var max_revolut_send_packed_bytes = count_packed(max_revolut_send_len, pack_size); // ceil(max_num_bytes / 7)
     
     signal input revolut_send_id_idx;
