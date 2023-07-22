@@ -2,9 +2,18 @@ pragma solidity =0.7.6;
 pragma abicoder v2;
 
 import "@uniswap/v3-periphery/contracts/interfaces/ISwapRouter.sol";
+
 import "hardhat/console.sol";
 
+interface IERC20 {
+  function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);
+  function mint(address to, uint256 amount) external;
+}
+
 contract UniswapV3SwapRouterMock {
+  IERC20 public usdc;
+  IERC20 public euro;
+  
   constructor(
     IERC20 _usdc,
     IERC20 _euro
