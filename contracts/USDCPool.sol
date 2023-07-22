@@ -60,7 +60,7 @@ contract USDCPool is IPool {
   IERC20 public euro;
   uint24 public usdcEuroPoolFee;
 
-  uint256 public orderId;
+  uint256 public numOrders;
 
   constructor(
     IPool _euroPool,
@@ -80,7 +80,7 @@ contract USDCPool is IPool {
     usdcEuroPoolFee = euroUsdcPoolFee;
 
     // Set initial orderId
-    orderId = 1;
+    numOrders = 1;
   }
 
   // Update helpers
@@ -129,8 +129,8 @@ contract USDCPool is IPool {
     uint256 amount,
     string memory offChainPaymentAddress
   ) external override {
-    orders[orderId] = Order({
-      id: orderId,
+    orders[numOrders] = Order({
+      id: numOrders,
       amount: amount,
       offChainPaymentAddress: offChainPaymentAddress,
       claimed: false,
@@ -140,7 +140,7 @@ contract USDCPool is IPool {
 
     usdc.transferFrom(msg.sender, address(this), amount);
 
-    orderId += 1;
+    numOrders += 1;
   }
 
   // Called by the taker
