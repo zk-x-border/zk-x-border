@@ -9,8 +9,8 @@ include "./helpers/extract.circom";
 include "./regexes/from_regex.circom";
 include "./regexes/tofrom_domain_regex.circom";
 include "./regexes/body_hash_regex.circom";
-include "./regexes/revolut_send_iban.circom";
-include "./regexes/revolut_amount_regex.circom";
+include "./regexes/revolut_send_eur_iban.circom";
+include "./regexes/revolut_eur_amount_regex.circom";
 
 // Here, n and k are the biginteger parameters for RSA
 // This is because the number is chunked into k pack_size of n bits each
@@ -110,7 +110,7 @@ template RevolutSendEmail(max_header_bytes, max_body_bytes, n, k, pack_size) {
     //
 
     // REVOLUT SEND AMOUNT REGEX: [x]
-    var max_email_amount_len = 7;
+    var max_email_amount_len = 30;
     var max_email_amount_packed_bytes = count_packed(max_email_amount_len, pack_size);
     assert(max_email_amount_packed_bytes < max_body_bytes);
 
@@ -118,39 +118,39 @@ template RevolutSendEmail(max_header_bytes, max_body_bytes, n, k, pack_size) {
     signal output reveal_email_amount_packed[max_email_amount_packed_bytes]; // packed into 7-bytes. TODO: make this rotate to take up even less space
 
     signal amount_regex_out, amount_regex_reveal[max_body_bytes];
-    (amount_regex_out, amount_regex_reveal) <== RevolutAmountRegex(max_body_bytes)(in_body_padded);
+    (amount_regex_out, amount_regex_reveal) <== RevolutEurAmountRegex(max_body_bytes)(in_body_padded);
     signal is_found_revolut_amount <== IsZero()(amount_regex_out);
     is_found_revolut_amount === 0;
 
     reveal_email_amount_packed <== ShiftAndPack(max_body_bytes, max_email_amount_len, pack_size)(amount_regex_reveal, revolut_amount_idx);
 
     for (var i = 0; i < max_email_amount_packed_bytes; i++) {
-        log("test3", reveal_email_amount_packed[i]);
+        log("amount packed", reveal_email_amount_packed[i]);
     }
 
     for (var i = 0; i < max_body_bytes; i++) {
-        log(amount_regex_reveal[i], "test4");
+        log("amount reveal", amount_regex_reveal[i]);
     }
 
     // REVOLUT SEND OFFRAMPER ACCOUNT ID REGEX: [x]
-    var max_revolut_send_len = 10;
+    var max_revolut_send_len = 30;
     var max_revolut_send_packed_bytes = count_packed(max_revolut_send_len, pack_size); // ceil(max_num_bytes / 7)
     
     signal input revolut_send_id_idx;
     signal output reveal_revolut_send_packed[max_revolut_send_packed_bytes];
 
-    signal (revolut_send_regex_out, revolut_send_regex_reveal[max_body_bytes]) <== RevolutSendIbanRegex(max_body_bytes)(in_body_padded);
+    signal (revolut_send_regex_out, revolut_send_regex_reveal[max_body_bytes]) <== RevolutSendEurIbanRegex(max_body_bytes)(in_body_padded);
     signal is_found_revolut_send <== IsZero()(revolut_send_regex_out);
     is_found_revolut_send === 0;
 
     // PACKING: 16,800 constraints (Total: [x])
     reveal_revolut_send_packed <== ShiftAndPack(max_body_bytes, max_revolut_send_len, pack_size)(revolut_send_regex_reveal, revolut_send_id_idx);
     for (var i = 0; i < max_revolut_send_packed_bytes; i++) {
-        log("test", reveal_revolut_send_packed[i]);
+        log("send packed", reveal_revolut_send_packed[i]);
     }
 
     for (var i = 0; i < max_body_bytes; i++) {
-        log(revolut_send_regex_reveal[i], "test2");
+        log("send reveal", revolut_send_regex_reveal[i]);
     }
 
     // Nullifier
@@ -179,4 +179,4 @@ template RevolutSendEmail(max_header_bytes, max_body_bytes, n, k, pack_size) {
 // * n = 121 is the number of bits in each chunk of the modulus (RSA parameter)
 // * k = 9 is the number of chunks in the modulus (RSA parameter)
 // * pack_size = 7 is the number of bytes that can fit into a 255ish bit signal (can increase later)
-component main { public [ modulus, order_id ] } = RevolutSendEmail(1024, 11712, 121, 17, 7);
+component main { public [ modulus, order_id ] } = RevolutSendEmail(1024, 12352, 121, 17, 7);
