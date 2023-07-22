@@ -11,9 +11,9 @@ const { BigNumber } = hre.ethers;
 
 const ZERO = BigNumber.from(0);
 
-describe.skip("USDC Pool", function () {
+describe("EURO Pool", function () {
     let ramp;
-    let fakeUSDC;
+    let fakeEuro;
     let maxAmount;
 
     let deployer;
@@ -27,42 +27,42 @@ describe.skip("USDC Pool", function () {
         console.log('Deploying fake USDC...')
 
         const FakeUSDC = await hre.ethers.getContractFactory("FakeUSDC");
-        fakeUSDC = await FakeUSDC.deploy("Fake USDC", "fUSDC", 10000000000000);
+        fakeEuro = await FakeUSDC.deploy("Fake USDC", "fUSDC", 10000000000000);
 
-        await fakeUSDC.connect(deployer).transfer(offRamper.address, 1000000000); // $1000
+        await fakeEuro.connect(deployer).transfer(offRamper.address, 1000000000); // $1000
 
-        console.log(fakeUSDC.address);
-        console.log('Deploying USDC Pool...')
+        console.log(fakeEuro.address);
+        console.log('Deploying EURO Pool...')
 
 
         // init a bunch of fake addresses
-        let euroPool = "0xE0B52e49357Fd4DAf2c15e02058DCE6BC0057db4";
+        let usdPool = "0xE0B52e49357Fd4DAf2c15e02058DCE6BC0057db4";
         let verifier = "0xE0B52e49357Fd4DAf2c15e02058DCE6BC0057db4";
         let swapRouter = "0xE0B52e49357Fd4DAf2c15e02058DCE6BC0057db4";
-        let euro = "0xE0B52e49357Fd4DAf2c15e02058DCE6BC0057db4";
+        let usdc = "0xE0B52e49357Fd4DAf2c15e02058DCE6BC0057db4";
         let quoter = "0xE0B52e49357Fd4DAf2c15e02058DCE6BC0057db4";
         let usdcEuroPoolFee = "1000";
 
-        const Ramp = await hre.ethers.getContractFactory("USDCPool");
+        const Ramp = await hre.ethers.getContractFactory("EuropePool");
         ramp = await Ramp.deploy(
-            euroPool,
+            usdPool,
             verifier,
-            fakeUSDC.address,
+            fakeEuro.address,
             swapRouter,
             quoter,
             usdcEuroPoolFee,
-            euro,
+            usdc,
         );
         console.log(ramp.address);
     });
 
     describe("createOrder", function () {
         let amount = BigNumber.from(10000000); // $10
-        let offChainPaymentAddress = "MyParisianGirlfriend";
+        let offChainPaymentAddress = "MyAmericanGirlfriend"; // Yes, I have two girlfriends
 
         it("creates an order", async function () {
 
-            await fakeUSDC.connect(offRamper).approve(ramp.address, amount);
+            await fakeEuro.connect(offRamper).approve(ramp.address, amount);
 
             await ramp.connect(offRamper).createOrder(amount, offChainPaymentAddress);
 
@@ -81,7 +81,7 @@ describe.skip("USDC Pool", function () {
             let amount = BigNumber.from(10000000); // $10
             let offChainPaymentAddress = "MyParisianGirlfriend";
 
-            await fakeUSDC.connect(offRamper).approve(ramp.address, amount);
+            await fakeEuro.connect(offRamper).approve(ramp.address, amount);
 
             await ramp.connect(offRamper).createOrder(amount, offChainPaymentAddress);
         });
@@ -98,35 +98,35 @@ describe.skip("USDC Pool", function () {
 
     describe("completeOnRampOrder", function () {
 
-        let a = ["0x09f880318914368db9f055fdf61cacd81dca2c47b96c2ff8cd3609dfadcb353b", "0x07c494bb55a683c1013309303b061aca366f86073b0304d22b97dc5c602ebb4f"];
+        let a = ["0x2161c9033287a1a0770e664fb12bacfb5ea0360fdb2a0b52a7dc3e22b01e97ea", "0x2b69551363c03f2ed145ede80b3465f38ddc416f38954989076dc28e3df9767c"];
         let b = [
-            ["0x1562b771233d15ca0e4fd6c43f7f783a32e1c4c060179b130a8e0d606206a5e7", "0x0ce9476295b8b42ae6be8b95ee9ae00675be05438199f66c5ddfaa22d659a33e"],
-            ["0x1a2c8e4432e43f8d71db8624219064916e5a51e3d9b924470d2a8f56b7eab279", "0x2500443dc24546b62b317f1dd1d068953e0db1aca91ffb3d4be48eb2ab1e0ce4"]
+            ["0x30012c7fa027e5c31aba809264e48ef98d353f222ecc88fc7d4b979fc887901a", "0x2b2c94ce0990560207680836e464f0d0376bf85497f6c6ac273cab851588e202"],
+            ["0x171c365446861a00f1d4fa98c041db44c05475b6563f2f03b39da4d1fdec27b2", "0x181a5061dae966acd2e4ff88c24ce043444bf5a5a1435b8d1dd470d3a210fb1c"]
         ];
-        let c = ["0x070d784e2edf7185c5d4950c0fd83f44f6d41f566cb3707000dd8b6a378c797d", "0x0fd22f41f5c0c7cf9506caa0f0fc20d23426c9b93cd8f6e424bfb2547a741be6"];
+        let c = ["0x13b482e67e8ed96fe8a2bd6f947580d2ef7f9b6cf97175ea99131371fb5c8e9f", "0x2baf66fa65f9253764aaa67560a350a17852002ae1f3d523465030fa1570a5bf"];
         let signals = [
-            "0x00000000000000000000000000000000000000000000000000000030302e3033",
+            "0x0000000000000000000000000000000000000000000000000000003030302c32",
             "0x0000000000000000000000000000000000000000000000000000000000000000",
             "0x0000000000000000000000000000000000000000000000000000000000000000",
             "0x0000000000000000000000000000000000000000000000000000000000000000",
             "0x0000000000000000000000000000000000000000000000000000000000000000",
-            "0x0000000000000000000000000000000000000000000000000037303232383532",
-            "0x0000000000000000000000000000000000000000000000000038353231343535",
-            "0x00000000000000000000000000000000000000000000000000363934320a0d3d",
-            "0x0000000000000000000000000000000000000000000000000000000000000037",
+            "0x0000000000000000000000000000000000000000000000000034303030355450",
+            "0x0000000000000000000000000000000000000000000000000058580a0d3d5835",
+            "0x0000000000000000000000000000000000000000000000000058585858585858",
+            "0x0000000000000000000000000000000000000000000000000033343231585858",
             "0x0000000000000000000000000000000000000000000000000000000000000000",
-            "0x0000000000000000000000000000000000370bd327681a47a6b8d55b315582d0",
-            "0x00000000000000000000000000000000003bcfba8b3a460d3f68822acdfbcd53",
-            "0x0000000000000000000000000000000000000000000000000000000000002b21",
-            "0x000000000000000000000000000000000083a043f3f512cb0e9efb506011e359",
-            "0x0000000000000000000000000000000000c2e52cefcd800a155366e0207f2563",
-            "0x0000000000000000000000000000000000f3576e6387ca2c770760edd72b0fae",
-            "0x00000000000000000000000000000000019143a1fc85a71614784b98ff4b16c0",
-            "0x00000000000000000000000000000000007bbd0dfb9ef73cf08f4036e24a6b72",
-            "0x000000000000000000000000000000000119d3bd704f04dc4f74482cdc239dc7",
-            "0x0000000000000000000000000000000001d083a581190a93434412d791fa7fd1",
-            "0x000000000000000000000000000000000064350c632569b077ed7b300d3a4051",
-            "0x00000000000000000000000000000000000000000000000000a879c82b6c5e0a",
+            "0x0000000000000000000000000000000001a39233215a1dac06b9c12b093d0c19",
+            "0x000000000000000000000000000000000001eb0a67fb00ee04ac19e10bdd1780",
+            "0x0000000000000000000000000000000000000000000000000000000000003c50",
+            "0x0000000000000000000000000000000001058481b16c0c6bc68b612881d69109",
+            "0x00000000000000000000000000000000017fd23efa54659bcfc805b3d06649d6",
+            "0x000000000000000000000000000000000100aa2baa3c1b6ef87468ec5bc14f73",
+            "0x0000000000000000000000000000000001c43bddf64aeafd7faffc39c2911ba5",
+            "0x00000000000000000000000000000000016ad3c248dd353b192e38cccf34a01f",
+            "0x0000000000000000000000000000000001d80b82a4f6cead025d04200087be3f",
+            "0x0000000000000000000000000000000001b87939bd34a27fa069022ecf22cd31",
+            "0x0000000000000000000000000000000001d73d3916dbbf584bc426b675efa1f4",
+            "0x00000000000000000000000000000000000000000000000000ac4c64b591c821",
             "0x0000000000000000000000000000000000000000000000000000000000000000",
             "0x0000000000000000000000000000000000000000000000000000000000000000",
             "0x0000000000000000000000000000000000000000000000000000000000000000",
@@ -138,12 +138,14 @@ describe.skip("USDC Pool", function () {
             "0x0000000000000000000000000000000000000000000000000000000000000001"
         ];
 
+
+
         beforeEach(async function () {
             let orderId = 1;
             let amount = BigNumber.from(10000000); // $10
-            let offChainPaymentAddress = "2582207554125824967";
+            let offChainPaymentAddress = "5000451243";
 
-            await fakeUSDC.connect(offRamper).approve(ramp.address, amount);
+            await fakeEuro.connect(offRamper).approve(ramp.address, amount);
 
             await ramp.connect(offRamper).createOrder(amount, offChainPaymentAddress);
 
@@ -161,7 +163,6 @@ describe.skip("USDC Pool", function () {
                 ],
                 signals
             );
-
 
 
         });

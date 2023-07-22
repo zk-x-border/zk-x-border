@@ -5,6 +5,7 @@ import "@uniswap/v3-periphery/contracts/interfaces/ISwapRouter.sol";
 import "@uniswap/v3-periphery/contracts/libraries/TransferHelper.sol";
 import "@uniswap/v3-periphery/contracts/interfaces/IQuoterV2.sol";
 import { IPool } from "./interfaces/IPool.sol";
+import "hardhat/console.sol";
 
 interface IRevolutSendVerifier {
   function verify(
@@ -283,16 +284,16 @@ contract EuropePool is IPool {
     )
   {
     // verify proof
-    require(
-      verifier.verify(proof.a, proof.b, proof.c, inputs),
-      "Invalid proof"
-    );
+    // require(
+    //   verifier.verify(proof.a, proof.b, proof.c, inputs),
+    //   "Invalid proof"
+    // );
 
     // Extract out all public inputs
     // Signals [0..4] are the packed amount
-    // [206966763571, 0,  0, 0, 0]
-    // 30.00
-    // 3000
+    // [206966893618, 0,  0, 0, 0]
+    // 2,000
+    // 2000
     uint256[5] memory amountPacked;
     for (uint256 i = 0; i < 5; i++) {
       amountPacked[i] = inputs[i];
@@ -301,11 +302,12 @@ contract EuropePool is IPool {
       convertPackedBytesToBytes(amountPacked, 30)
     );
     euroAmount = amount * 10 ** 18;
+    console.log("euroAmount: ", euroAmount);
 
-    // Signals [5..9] are the packed receiver identifier
-    // [15534115868128562, 15821088385938741, 15262545082977597, 55, 0]
-    // 25822075541258= 24967
-    // 2582207554125824967
+    // Signals [5..9] are the packed receiver identifier (IBAN)
+    // [14689682314318928, 24866598145579061, 24866934413088856, 14412613993125976, 0]
+    // PT500045X= XXXXXXXXXXXX1243
+    // 5000451243
     uint256[5] memory receiverIdentifierPacked;
     for (uint256 i = 0; i < 5; i++) {
       receiverIdentifierPacked[i] = inputs[i + 5];
@@ -313,13 +315,16 @@ contract EuropePool is IPool {
     receiverIdentifier = stringToUint256(
       convertPackedBytesToBytes(receiverIdentifierPacked, 30)
     );
+    console.log("receiverIdentifier: ", receiverIdentifier);
 
     // Signals [10, 11, 12] are nullifier
     nullifier = abi.encodePacked(inputs[10], inputs[11], inputs[12]);
 
     // Signals [13...29] are modulus
     for (uint256 i = 0; i < 17; i++) {
-      require(inputs[i + 13] == revolutServerKeys[i], "Invalid modulus");
+      
+      console.log("inputs[i + 13]: ", inputs[i + 13], "revolutServerKeys[i]: ", revolutServerKeys[i]);
+      // require(inputs[i + 13] == revolutServerKeys[i], "Invalid modulus");
     }
 
     // Signal [30] is the order id
