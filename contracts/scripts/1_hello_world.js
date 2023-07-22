@@ -8,6 +8,7 @@ const hre = require("hardhat");
 
 // Lay out the const contrat instances
 const USDC = "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174";
+const USDCABI = require("../abi/USDC.json");
 
 
 async function main() {
@@ -16,7 +17,18 @@ async function main() {
     // Get accounts
     const [owner, otherAccount] = await ethers.getSigners();
 
-    console.log(owner);
+    const blockNumber = await ethers.provider.getBlockNumber();
+    console.log("Current block number: " + blockNumber);
+
+    const usdcContract = await ethers.getContractAt(USDCABI, USDC);
+
+    console.log(usdcContract.address);
+
+    const name = await usdcContract.totalSupply();
+
+    console.log(name);
+
+    // Get USDC ABI
 
     // WHat are fixtures?
 
