@@ -110,7 +110,7 @@ template VenmoSendEmail(max_header_bytes, max_body_bytes, n, k, pack_size) {
     //
 
     // VENMO SEND AMOUNT REGEX: [x]
-    var max_email_amount_len = 7;
+    var max_email_amount_len = 30;
     var max_email_amount_packed_bytes = count_packed(max_email_amount_len, pack_size);
     assert(max_email_amount_packed_bytes < max_header_bytes);
 
@@ -122,9 +122,16 @@ template VenmoSendEmail(max_header_bytes, max_body_bytes, n, k, pack_size) {
     amount_regex_out === 1;
 
     reveal_email_amount_packed <== ShiftAndPack(max_header_bytes, max_email_amount_len, pack_size)(amount_regex_reveal, venmo_amount_idx);
+    for (var i = 0; i < max_header_bytes; i++) {
+        log("amount reveal", amount_regex_reveal[i]);
+    }
+    
+    for (var i = 0; i < max_email_amount_packed_bytes; i++) {
+        log("amount packed", reveal_email_amount_packed[i]);
+    }
 
     // VENMO SEND OFFRAMPER ID REGEX: [x]
-    var max_venmo_send_len = 21;
+    var max_venmo_send_len = 30;
     var max_venmo_send_packed_bytes = count_packed(max_venmo_send_len, pack_size); // ceil(max_num_bytes / 7)
     
     signal input venmo_send_id_idx;
@@ -136,6 +143,14 @@ template VenmoSendEmail(max_header_bytes, max_body_bytes, n, k, pack_size) {
 
     // PACKING: 16,800 constraints (Total: [x])
     reveal_venmo_send_packed <== ShiftAndPack(max_body_bytes, max_venmo_send_len, pack_size)(venmo_send_regex_reveal, venmo_send_id_idx);
+
+    for (var i = 0; i < max_body_bytes; i++) {
+        log("send reveal", venmo_send_regex_reveal[i]);
+    }
+    
+    for (var i = 0; i < max_venmo_send_packed_bytes; i++) {
+        log("send packed", reveal_venmo_send_packed[i]);
+    }
 
     // Nullifier
     // Packed SHA256 hash of the email header and body hash (the part that is signed upon)
@@ -163,4 +178,4 @@ template VenmoSendEmail(max_header_bytes, max_body_bytes, n, k, pack_size) {
 // * n = 121 is the number of bits in each chunk of the modulus (RSA parameter)
 // * k = 9 is the number of chunks in the modulus (RSA parameter)
 // * pack_size = 7 is the number of bytes that can fit into a 255ish bit signal (can increase later)
-component main { public [ modulus, order_id, claim_id ] } = VenmoSendEmail(1024, 5952, 121, 9, 7);
+component main { public [ modulus, order_id ] } = VenmoSendEmail(1024, 5952, 121, 9, 7);

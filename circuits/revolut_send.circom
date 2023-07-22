@@ -110,7 +110,7 @@ template RevolutSendEmail(max_header_bytes, max_body_bytes, n, k, pack_size) {
     //
 
     // REVOLUT SEND AMOUNT REGEX: [x]
-    var max_email_amount_len = 7;
+    var max_email_amount_len = 30;
     var max_email_amount_packed_bytes = count_packed(max_email_amount_len, pack_size);
     assert(max_email_amount_packed_bytes < max_body_bytes);
 
@@ -125,15 +125,15 @@ template RevolutSendEmail(max_header_bytes, max_body_bytes, n, k, pack_size) {
     reveal_email_amount_packed <== ShiftAndPack(max_body_bytes, max_email_amount_len, pack_size)(amount_regex_reveal, revolut_amount_idx);
 
     for (var i = 0; i < max_email_amount_packed_bytes; i++) {
-        log("test3", reveal_email_amount_packed[i]);
+        log("amount packed", reveal_email_amount_packed[i]);
     }
 
     for (var i = 0; i < max_body_bytes; i++) {
-        log(amount_regex_reveal[i], "test4");
+        log("amount reveal", amount_regex_reveal[i]);
     }
 
     // REVOLUT SEND OFFRAMPER ACCOUNT ID REGEX: [x]
-    var max_revolut_send_len = 10;
+    var max_revolut_send_len = 30;
     var max_revolut_send_packed_bytes = count_packed(max_revolut_send_len, pack_size); // ceil(max_num_bytes / 7)
     
     signal input revolut_send_id_idx;
@@ -146,11 +146,11 @@ template RevolutSendEmail(max_header_bytes, max_body_bytes, n, k, pack_size) {
     // PACKING: 16,800 constraints (Total: [x])
     reveal_revolut_send_packed <== ShiftAndPack(max_body_bytes, max_revolut_send_len, pack_size)(revolut_send_regex_reveal, revolut_send_id_idx);
     for (var i = 0; i < max_revolut_send_packed_bytes; i++) {
-        log("test", reveal_revolut_send_packed[i]);
+        log("send packed", reveal_revolut_send_packed[i]);
     }
 
     for (var i = 0; i < max_body_bytes; i++) {
-        log(revolut_send_regex_reveal[i], "test2");
+        log("send reveal", revolut_send_regex_reveal[i]);
     }
 
     // Nullifier
