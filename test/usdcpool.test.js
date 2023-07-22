@@ -36,17 +36,19 @@ describe("USDC Pool", function () {
 
 
         // init a bunch of fake addresses
-        // let euroPool = "0xE0B52e49357Fd4DAf2c15e02058DCE6BC0057db4";
-        let verifier = "0xE0B52e49357Fd4DAf2c15e02058DCE6BC0057db4";
         let swapRouter = "0xE0B52e49357Fd4DAf2c15e02058DCE6BC0057db4";
         let euro = "0xE0B52e49357Fd4DAf2c15e02058DCE6BC0057db4";
         let quoter = "0xE0B52e49357Fd4DAf2c15e02058DCE6BC0057db4";
         let usdcEuroPoolFee = "1000";
 
+        const VenmoSendVerifier = await hre.ethers.getContractFactory("VenmoSendVerifier");
+        verifier = await VenmoSendVerifier.deploy();
+        console.log(verifier.address);
+
         const Ramp = await hre.ethers.getContractFactory("USDCPool");
         ramp = await Ramp.deploy(
             // euroPool,
-            verifier,
+            verifier.address,
             fakeUSDC.address,
             swapRouter,
             quoter,
