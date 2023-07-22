@@ -4,7 +4,7 @@ source circuit.env
 
 R1CS_FILE="$BUILD_DIR/$CIRCUIT_NAME.r1cs"
 PARTIAL_ZKEYS="$BUILD_DIR"/partial_zkeys
-PHASE1=../circuits/powersOfTau28_hez_final_22.ptau
+PHASE1=../../../../ptau_files/powersOfTau28_hez_final_24.ptau
 source entropy.env
 
 if [ ! -d "$BUILD_DIR"/partial_zkeys ]; then
