@@ -11,8 +11,8 @@ module.exports = {
         matic: {
             url: `https://polygon-mainnet.infura.io/v3/${INFURA_PROJECT_ID}`,
             accounts: [`0x${PRIVATE_KEY}`],
-            gas: 120000000,
-            blockGasLimit: 120000000
+            gas: 1200000,
+            blockGasLimit: 12000000
         },
         hardhat: {
             forking: {

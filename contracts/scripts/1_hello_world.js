@@ -5,6 +5,7 @@
 // will compile your contracts, add the Hardhat Runtime Environment's members to the
 // global scope, and execute the script.
 const hre = require("hardhat");
+const { BigNumber } = hre.ethers;
 
 // Lay out the const contrat instances
 const USDC = "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174";
@@ -22,20 +23,14 @@ async function main() {
 
     const usdcContract = await ethers.getContractAt(USDCABI, USDC);
 
-    console.log(usdcContract.address);
-
-    const name = await usdcContract.totalSupply();
-
-    console.log(name);
-
-    // Get USDC ABI
-
-    // WHat are fixtures?
-
-    // Get USDC balance of this account
-
-    // Do a raw get state
-
+    let amount = BigNumber.from(10000000); // $10
+    const receipt = await usdcContract.approve(
+        "0x9Beb48630317e8FD2bD091dD2CdCa90Ff1d6c8D1", 
+        amount, 
+        { gasLimit: 100000 }
+    );
+    
+    console.log(receipt);
     
 }
 
