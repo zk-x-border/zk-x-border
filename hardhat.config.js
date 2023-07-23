@@ -33,7 +33,32 @@ module.exports = {
         polygon: {
             url: "https://rpc-mainnet.maticvigil.com",
             accounts: [`0x${PRIVATE_KEY}`]
+        },
+        gnosis: {
+            url: "https://rpc.gnosis.gateway.fm",
+            accounts: [`0x${PRIVATE_KEY}`]
+        },
+        linea: {
+            // Just deploy on Linea using Infura to qualify!
+            name: "linea",
+            chainId: 59144,
+            url: "https://linea-mainnet.infura.io/v3/${INFURA_PROJECT_ID}",
+            accounts: [`0x${PRIVATE_KEY}`],
+            // https://docs.linea.build/use-mainnet/info-contracts#network-information
+            // Network Name	Linea
+            // RPC URL	https://linea-mainnet.infura.io/v3 or via Infura (recommended)
+            // Chain ID	59144
+            // Currency Symbol	ETH
+            //  Block Explorer URL	https://lineascan.build/
+        },
+        mantle: {
+            // (include a link to smart contract deployed on Mantle Explorer)
+            name: "mantle",
+            chainId: 5001,
+            url: "https://rpc.testnet.mantle.xyz",
+            accounts: [`0x${PRIVATE_KEY}`],
         }
+
     },
     // Etherscan verification doesn't work, was able to do it manually
     etherscan: {
@@ -49,7 +74,7 @@ module.exports = {
         version: "0.7.6",
         settings: {
             optimizer: {
-                enabled: true,
+                enabled: false,
                 runs: 200
             }
         }
