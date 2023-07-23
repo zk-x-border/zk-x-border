@@ -6,11 +6,14 @@ const ONE_GWEI = BigNumber.from(1000000000);
 async function main() {
     const feeData = await hre.ethers.provider.getFeeData();
     const deployGasConfig = {
-        // gasPrice: feeData.gasPrice.add(ONE_GWEI.mul(3)),
+        gasPrice: feeData.gasPrice.add(ONE_GWEI.mul(3)),
     }
 
     console.log(feeData, deployGasConfig);
     const [deployer] = await hre.ethers.getSigners();
+
+    // Add delay
+    await new Promise(resolve => setTimeout(resolve, 10000));
 
 
     let euroAddress;
@@ -33,11 +36,17 @@ async function main() {
         const fakeUSDC = await FakeUSDC.deploy("FakeUSDC", "fUSDC", "10000000000000000000000000");
         console.log("FakeUSDC contract deployed to address:", fakeUSDC.address);
 
+        // Add delay
+        await new Promise(resolve => setTimeout(resolve, 10000));
+
         // Deploy Fake egEuro
         console.log("Deploying Fake egEuro contract with the account:", deployer.address);
         const FakeEuro = await hre.ethers.getContractFactory("FakeToken");
         const fakeEuro = await FakeEuro.deploy("FakeEuro", "fEUR", "10000000000000000000000000");
         console.log("Fake egEuro contract deployed to address:", fakeEuro.address);
+
+        // Add delay
+        await new Promise(resolve => setTimeout(resolve, 10000));
 
         // Deploy UniswapV3SwappRouterMock
         console.log("Deploying UniswapV3SwappRouterMock contract with the account:", deployer.address);
@@ -49,6 +58,9 @@ async function main() {
         );
         console.log("UniswapV3SwappRouterMock contract deployed to address:", uniswapV3SwappRouterMock.address);
 
+        // Add delay
+        await new Promise(resolve => setTimeout(resolve, 10000));
+
         // Deploy UniswapV3QuoterMock
         console.log("Deploying UniswapV3QuoterMock contract with the account:", deployer.address);
         const UniswapV3QuoterMock = await hre.ethers.getContractFactory("UniswapV3QuoterMock");
@@ -57,6 +69,9 @@ async function main() {
             fakeEuro.address
         );
         console.log("UniswapV3QuoterMock contract deployed to address:", uniswapV3QuoterMock.address);
+
+        // Add delay
+        await new Promise(resolve => setTimeout(resolve, 10000));
 
         euroAddress = fakeEuro.address;
         usdcAddress = fakeUSDC.address;
@@ -74,9 +89,13 @@ async function main() {
         quoterV2Address,
         usdcEuroPoolFee,
         euroAddress,
+        deployGasConfig
     );
 
     console.log("USDC Pool contract deployed to address:", usdcPool.address);
+
+    // Add delay
+    await new Promise(resolve => setTimeout(resolve, 10000));
 
 
     console.log("Deploying EURO Pool contract with the account:", deployer.address);
@@ -88,7 +107,11 @@ async function main() {
         quoterV2Address,
         usdcEuroPoolFee,
         usdcAddress,
+        deployGasConfig
     );
+
+    // Add delay
+    await new Promise(resolve => setTimeout(resolve, 10000));
 
     console.log("EURO Pool contract deployed to address:", euroPool.address);
 
@@ -138,4 +161,22 @@ main()
 // Euro Pool: https://explorer.testnet.mantle.xyz/address/0x0d228e8635f7db6783c53D1fEd9E7b4978Fcb4e0/contracts#address-tabs
 
 
-// 
+// Linea
+// Deploying FakeUSDC contract with the account: 0xF338Ee47cC5B9630ac403e2663ff42E0c57bAA7C
+// FakeUSDC contract deployed to address: 0x07A072A1dF625ccc42A779e4020521477b1CBA59
+// Deploying Fake egEuro contract with the account: 0xF338Ee47cC5B9630ac403e2663ff42E0c57bAA7C
+// Fake egEuro contract deployed to address: 0x5Fb895b82dDDf207cCD7F959C44bcC7db1396354
+// Deploying UniswapV3SwappRouterMock contract with the account: 0xF338Ee47cC5B9630ac403e2663ff42E0c57bAA7C
+// UniswapV3SwappRouterMock contract deployed to address: 0xEAF6Fd3E86F5A6D87A89C0d9B8D02475CB9f5CC6
+// Deploying UniswapV3QuoterMock contract with the account: 0xF338Ee47cC5B9630ac403e2663ff42E0c57bAA7C
+// UniswapV3QuoterMock contract deployed to address: 0x2309E525eebc641eF5f000ea6DE1F84A81f4524F
+// Deploying USDC Pool contract with the account: 0xF338Ee47cC5B9630ac403e2663ff42E0c57bAA7C
+// USDC Pool contract deployed to address: 0x3586B0DDBd7447cbE0a2097bA7b62889C4a2EEF8
+// Deploying EURO Pool contract with the account: 0xF338Ee47cC5B9630ac403e2663ff42E0c57bAA7C
+// EURO Pool contract deployed to address: 0xe81588f775A88CD6b2Ee199Ee322d3B1D8CD3ae8
+// Setting EURO Pool address in USDC Pool contract with the account: 0xF338Ee47cC5B9630ac403e2663ff42E0c57bAA7C
+// EURO Pool address set in USDC Pool contract
+// Setting USDC Pool address in EURO Pool contract with the account: 0xF338Ee47cC5B9630ac403e2663ff42E0c57bAA7C
+
+// Links:
+// https://goerli.lineascan.build/address/0x3586B0DDBd7447cbE0a2097bA7b62889C4a2EEF8#code

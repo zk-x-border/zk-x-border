@@ -11,24 +11,24 @@ const { BigNumber } = hre.ethers;
 const USDC = "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174";
 const USDCABI = require("../abi/USDC.json");
 
-const USDCPool = "0x0000000000000000000000000000000000000000"; // To fill in
+const USDCPool = "0x18C54cFB3bC9480E9Dab7fEB5d319E6460D40627"; // To fill in
 const USDCPoolABI = require("../abi/USDCPool.json");
 
 const ORDER_ID = 1;
 const EMAIL_HASH = "0";
 
 async function main() {
-    console.log("USDPool.claim order ID 1");
+  console.log("USDPool.claim order ID 1");
 
-    const usdcPoolContract = await ethers.getContractAt(USDCABI, USDCPool);
+  const usdcPoolContract = await ethers.getContractAt(USDCABI, USDCPool);
 
-    await usdcPoolContract.claimOrder(
-        ORDER_ID,
-        EMAIL_HASH,
-        { gasLimit: 140000 }
-    );
+  await usdcPoolContract.claimOrder(
+    ORDER_ID,
+    EMAIL_HASH,
+    { gasLimit: 140000 }
+  );
 
-    console.log("Submitted USDCPool claim Order!");
+  console.log("Submitted USDCPool claim Order!");
 }
 
 // We recommend this pattern to be able to use async/await everywhere
