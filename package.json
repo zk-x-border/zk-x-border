@@ -36,6 +36,9 @@
     "demo-4": "yarn hardhat run contracts/scripts/4_complete_onramp.js --network matic",
     "deploy:setup:matic": "npx hardhat run scripts/deploy_setup.js --network matic",
     "deploy:setup:mantle": "npx hardhat run scripts/deploy_setup.js --network mantle",
+    "deploy:setup:linea": "npx hardhat run scripts/deploy_setup.js --network linea",
+    "deploy:setup:gnosis": "npx hardhat run scripts/deploy_setup.js --network gnosis",
+    "deploy:setup:polygon_zkevm": "npx hardhat run scripts/deploy_setup.js --network polygon_zkevm",
     "deploy:polygon": "npx hardhat run scripts/deploy.js --network polygon",
     "deploy:localhost": "npx hardhat run scripts/deploy.js --network localhost"
   },

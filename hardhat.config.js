@@ -37,13 +37,14 @@ module.exports = {
         gnosis: {
             url: "https://rpc.gnosis.gateway.fm",
             accounts: [`0x${PRIVATE_KEY}`]
+            // building gnosis safe on goerli
         },
         linea: {
             // Just deploy on Linea using Infura to qualify!
-            name: "linea",
-            chainId: 59144,
-            url: "https://linea-mainnet.infura.io/v3/${INFURA_PROJECT_ID}",
-            accounts: [`0x${PRIVATE_KEY}`],
+            // name: "linea",
+            // url: "https://linea-mainnet.infura.io/v3/${INFURA_PROJECT_ID}",
+            url: "https://linea-goerli.infura.io/v3/82c5f2012ef5481f855420f8c6c241fc",
+            accounts: [`0x${PRIVATE_KEY}`]
             // https://docs.linea.build/use-mainnet/info-contracts#network-information
             // Network Name	Linea
             // RPC URL	https://linea-mainnet.infura.io/v3 or via Infura (recommended)
@@ -56,9 +57,12 @@ module.exports = {
             name: "mantle",
             chainId: 5001,
             url: "https://rpc.testnet.mantle.xyz",
-            accounts: [`0x${PRIVATE_KEY}`],
+            accounts: [`0x${PRIVATE_KEY}`]
+        },
+        polygon_zkevm: {
+            url: "https://zkevm-rpc.com",
+            accounts: [`0x${PRIVATE_KEY}`]
         }
-
     },
     // Etherscan verification doesn't work, was able to do it manually
     etherscan: {

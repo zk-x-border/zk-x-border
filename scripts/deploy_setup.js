@@ -138,4 +138,14 @@ main()
 // Euro Pool: https://explorer.testnet.mantle.xyz/address/0x0d228e8635f7db6783c53D1fEd9E7b4978Fcb4e0/contracts#address-tabs
 
 
-// 
+// zkEVM
+// Deploying FakeUSDC contract with the account: 0xF338Ee47cC5B9630ac403e2663ff42E0c57bAA7C
+// FakeUSDC contract deployed to address: 0x83f3a5c2Da70f2Cac88B8C10bD413AE9D2f72c57
+// Deploying Fake egEuro contract with the account: 0xF338Ee47cC5B9630ac403e2663ff42E0c57bAA7C
+// Fake egEuro contract deployed to address: 0xD1492522c8e1075aA1399194121F8463A0C2727B
+// Deploying UniswapV3SwappRouterMock contract with the account: 0xF338Ee47cC5B9630ac403e2663ff42E0c57bAA7C
+// UniswapV3SwappRouterMock contract deployed to address: 0xe576012568d38aEf1271f4fA7241a7A1D1E265aE
+// Deploying UniswapV3QuoterMock contract with the account: 0xF338Ee47cC5B9630ac403e2663ff42E0c57bAA7C
+// UniswapV3QuoterMock contract deployed to address: 0xE3f762780C72ed6b2aAd947F0c52ebC84a3B747c
+// Deploying USDC Pool contract with the account: 0xF338Ee47cC5B9630ac403e2663ff42E0c57bAA7C
+// Pool deployments failed maybe due to no opcode support.
