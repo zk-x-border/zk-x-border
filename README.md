@@ -36,6 +36,29 @@ There are 2 ZKPs that need to be generated in order to complete 1 x-border trans
 
 ![zkp2p X-border (3)](https://github.com/zk-x-border/.github/assets/73331595/5f9bc293-28d5-461d-9b5f-59af9bab23c5)
 
+### Deployed contracts
+
+- USDC
+Network: Polygon  
+Address: [0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174](https://polygonscan.com/address/0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174)  
+
+- EuroToken
+Network: Polygon  
+Address: [0xE0B52e49357Fd4DAf2c15e02058DCE6BC0057db4](https://polygonscan.com/address/0xE0B52e49357Fd4DAf2c15e02058DCE6BC0057db4)  
+
+- Uniswap Router
+Network: Polygon  
+Address: [0xE592427A0AEce92De3Edee1F18E0157C05861564](https://polygonscan.com/address/0xE592427A0AEce92De3Edee1F18E0157C05861564)  
+
+- EuroPool
+Network: Polygon  
+Address: [0xfbb2ae302a460730685f74f262d1e3256033d625](https://polygonscan.com/address/0xfbb2ae302a460730685f74f262d1e3256033d625)  
+
+- USDCPool
+Network: Polygon  
+Address: [0x18c54cfb3bc9480e9dab7feb5d319e6460d40627](https://polygonscan.com/address/0x18c54cfb3bc9480e9dab7feb5d319e6460d40627)  
+
+
 
 
 
